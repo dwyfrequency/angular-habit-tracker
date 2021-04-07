@@ -4,9 +4,10 @@ import { Habit } from 'src/app/shared/habit';
 @Component({
   selector: 'app-habit-item',
   template: `<ng-container *ngIf="habit">
-    <li (click)="removeFromRoutine(habit.id)">
+    <li>
       {{ habit.name }}
     </li>
+    <button (click)="removeFromRoutine(habit.id)">delete</button>
     <button (click)="editHabitItem(habit.id)">edit</button>
   </ng-container>`,
   styles: [],

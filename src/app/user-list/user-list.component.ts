@@ -8,15 +8,18 @@ import { UsersService } from '../services/users.service';
       <li *ngFor="let user of users | async">{{ user.name }}</li>
     </ul>
 
-    <p>{{ users | async | json }}</p>`,
+    <p>{{ users | async | json }}</p>
+    <p>{{ posts | async | json }}</p>`,
   styles: [],
 })
 export class UserListComponent implements OnInit {
   users?: Observable<any>;
+  posts?: Observable<any>;
 
   constructor(private userService: UsersService) {}
 
   ngOnInit(): void {
     this.users = this.userService.getUsers();
+    this.posts = this.userService.getUserTodos(1);
   }
 }

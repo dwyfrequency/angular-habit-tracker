@@ -16,7 +16,7 @@ import { Habit } from '../shared/habit';
     <app-habit-form
       *ngIf="editMode"
       [editMode]="editMode"
-      [habitToEdit]="editHabit"
+      [habitToEdit]="editHabitItem"
       (updateHabit)="onUpdateHabit($event)"
     ></app-habit-form>
     <ul *ngIf="habits">
@@ -33,7 +33,7 @@ import { Habit } from '../shared/habit';
 export class HabitListComponent implements OnInit {
   title = 'Habits';
   editMode: boolean = false;
-  editHabit?: Habit;
+  editHabitItem?: Habit;
   habits?: Observable<Habit[]>;
 
   constructor(private habitService: HabitService) {}
@@ -48,10 +48,19 @@ export class HabitListComponent implements OnInit {
     this.habitService.removeHabit(id);
   }
 
-  onUpdateHabit(habit: Habit): void {}
+  onUpdateHabit(habit: Habit): void {
+    this.habitService.updateHabit(habit);
+    this.editMode = false;
+    this.editHabitItem = undefined;
+  }
 
   onEditHabit(habit: Habit): void {
-    this.editHabit = habit;
+    this.editMode = true;
+    this.editHabitItem = habit;
+    console.log({
+      editModeBool: this.editMode,
+      editHabitItem: this.editHabitItem,
+    });
   }
 
   onAddHabit(habit: Habit) {

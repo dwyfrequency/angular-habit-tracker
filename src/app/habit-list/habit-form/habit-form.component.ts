@@ -1,16 +1,33 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Habit } from 'src/app/shared/habit';
 
 @Component({
   selector: 'app-habit-form',
   template: `<form
-    [formGroup]="habitForm"
-    (ngSubmit)="addNewHabit(habitForm.value)"
-  >
-    <input type="text" formControlName="name" />
-    <button>Submit</button>
-  </form>`,
+      *ngIf="!editMode"
+      [formGroup]="habitForm"
+      (ngSubmit)="addNewHabit(habitForm.value)"
+    >
+      <input type="text" formControlName="name" />
+      <button>Submit</button>
+    </form>
+    <form
+      *ngIf="editMode"
+      [formGroup]="habitForm"
+      (ngSubmit)="updateExistingHabit(habitForm.value)"
+    >
+      <input type="text" formControlName="name" />
+      <button>Submit</button>
+    </form> `,
   styles: [],
 })
 export class HabitFormComponent implements OnInit, OnChanges {
@@ -24,7 +41,13 @@ export class HabitFormComponent implements OnInit, OnChanges {
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    throw new Error('Method not implemented.');
+    const { habitToEdit } = changes;
+    if (habitToEdit.currentValue) {
+      this.habitForm = this.fb.group({
+        name: [habitToEdit.currentValue.name],
+      });
+      console.log(this.habitForm);
+    }
   }
 
   ngOnInit() {

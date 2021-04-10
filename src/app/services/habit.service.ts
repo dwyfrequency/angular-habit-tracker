@@ -18,6 +18,16 @@ export class HabitService {
     return this.subject.asObservable();
   }
 
+  updateHabit(updatedHabit: Habit): void {
+    this.subject.next(
+      this.subject
+        .getValue()
+        .map((habit: Habit) =>
+          habit.id === updatedHabit.id ? updatedHabit : habit
+        )
+    );
+  }
+
   removeHabit(id: number): void {
     this.subject.next(this.subject.getValue().filter((x) => x.id !== id));
   }

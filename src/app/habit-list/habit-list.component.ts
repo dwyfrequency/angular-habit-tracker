@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { fromEvent, interval, Observable, of } from 'rxjs';
+import { delay, map, switchMap, take, tap } from 'rxjs/operators';
 import { HabitService } from '../services/habit.service';
 import { Habit } from '../shared/habit';
 
@@ -27,6 +27,7 @@ import { Habit } from '../shared/habit';
         (editHabit)="onEditHabit($event)"
       ></app-habit-item>
     </ul>
+    <h2>{{ test | async }}</h2>
   `,
   styles: [],
 })
@@ -35,6 +36,12 @@ export class HabitListComponent implements OnInit {
   editMode: boolean = false;
   editHabitItem?: Habit;
   habits?: Observable<Habit[]>;
+  test: Observable<string> = fromEvent(document, 'click').pipe(
+    switchMap(() => interval(100)),
+    delay(1000),
+    take(20),
+    map((x) => `number: ${x ** 2}`)
+  );
 
   constructor(private habitService: HabitService) {}
 

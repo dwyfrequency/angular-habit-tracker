@@ -7,6 +7,8 @@ import { HabitListComponent } from './habit-list/habit-list.component';
 import { HabitItemComponent } from './habit-list/habit-item/habit-item.component';
 import { HabitFormComponent } from './habit-list/habit-form/habit-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -14,8 +16,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     HabitListComponent,
     HabitItemComponent,
     HabitFormComponent,
+    UserListComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

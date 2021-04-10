@@ -9,13 +9,22 @@ import { Habit } from '../shared/habit';
   template: `
     <h1>{{ title }}</h1>
     <p>habit-list works!</p>
-    <app-habit-form (addHabit)="onAddHabit($event)"></app-habit-form>
+    <app-habit-form
+      *ngIf="!editMode"
+      (addHabit)="onAddHabit($event)"
+    ></app-habit-form>
+    <app-habit-form
+      *ngIf="editMode"
+      [editMode]="editMode"
+      [habitToEdit]="editHabit"
+      (updateHabit)="onUpdateHabit($event)"
+    ></app-habit-form>
     <ul *ngIf="habits">
       <app-habit-item
         *ngFor="let item of habits | async"
         [habit]="item"
         (deleteHabit)="onRemoveHabit($event)"
-        (editHabit)="updateHabit($event)"
+        (editHabit)="onEditHabit($event)"
       ></app-habit-item>
     </ul>
   `,
@@ -23,7 +32,8 @@ import { Habit } from '../shared/habit';
 })
 export class HabitListComponent implements OnInit {
   title = 'Habits';
-
+  editMode: boolean = false;
+  editHabit?: Habit;
   habits?: Observable<Habit[]>;
 
   constructor(private habitService: HabitService) {}
@@ -31,15 +41,17 @@ export class HabitListComponent implements OnInit {
   ngOnInit(): void {
     this.habits = this.habitService
       .getHabits()
-      .pipe(tap((x) => console.log(x)));
+      .pipe(tap((x) => console.log({ initialHabits: x })));
   }
 
   onRemoveHabit(id: number) {
     this.habitService.removeHabit(id);
   }
 
-  updateHabit(id: number): void {
-    console.log(id);
+  onUpdateHabit(habit: Habit): void {}
+
+  onEditHabit(habit: Habit): void {
+    this.editHabit = habit;
   }
 
   onAddHabit(habit: Habit) {

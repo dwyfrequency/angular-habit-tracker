@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Habit } from 'src/app/shared/habit';
 
@@ -13,17 +13,33 @@ import { Habit } from 'src/app/shared/habit';
   </form>`,
   styles: [],
 })
-export class HabitFormComponent {
+export class HabitFormComponent implements OnInit, OnChanges {
   @Output() addHabit = new EventEmitter<Habit>();
+  @Output() updateHabit = new EventEmitter<Habit>();
+  @Input() editMode: boolean = false;
+  @Input() habitToEdit?: Habit;
 
-  habitForm: FormGroup = this.fb.group({
-    name: [''],
-  });
+  habitForm!: FormGroup;
 
   constructor(private fb: FormBuilder) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    throw new Error('Method not implemented.');
+  }
+
+  ngOnInit() {
+    this.habitForm = this.fb.group({
+      name: [this.habitToEdit ? this.habitToEdit.name : ''],
+    });
+  }
+
   addNewHabit(formData: { name: string }) {
     this.addHabit.emit({ id: Date.now(), name: formData.name });
+    this.habitForm.reset();
+  }
+
+  updateExistingHabit(formData: { name: string; id: number }) {
+    this.updateHabit.emit({ id: this.habitToEdit!.id, name: formData.name });
     this.habitForm.reset();
   }
 }

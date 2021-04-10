@@ -8,7 +8,7 @@ import { Habit } from 'src/app/shared/habit';
       {{ habit.name }}
     </li>
     <button (click)="removeFromRoutine(habit.id)">delete</button>
-    <button (click)="editHabitItem(habit.id)">edit</button>
+    <button (click)="editHabitItem()">edit</button>
   </ng-container>`,
   styles: [],
 })
@@ -25,7 +25,7 @@ export class HabitItemComponent implements OnInit {
     this.deleteHabit.emit(id);
   }
 
-  editHabitItem(id: number) {
-    this.editHabit.emit(id);
+  editHabitItem() {
+    this.editHabit.emit(this.habit!);
   }
 }

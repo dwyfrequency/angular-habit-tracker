@@ -46,7 +46,6 @@ export class HabitFormComponent implements OnInit, OnChanges {
       this.habitForm = this.fb.group({
         name: [habitToEdit.currentValue.name],
       });
-      console.log(this.habitForm);
     }
   }
 

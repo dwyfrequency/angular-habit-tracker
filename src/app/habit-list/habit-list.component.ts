@@ -39,9 +39,7 @@ export class HabitListComponent implements OnInit {
   constructor(private habitService: HabitService) {}
 
   ngOnInit(): void {
-    this.habits = this.habitService
-      .getHabits()
-      .pipe(tap((x) => console.log({ initialHabits: x })));
+    this.habits = this.habitService.getHabits();
   }
 
   onRemoveHabit(id: number) {
@@ -57,10 +55,6 @@ export class HabitListComponent implements OnInit {
   onEditHabit(habit: Habit): void {
     this.editMode = true;
     this.editHabitItem = habit;
-    console.log({
-      editModeBool: this.editMode,
-      editHabitItem: this.editHabitItem,
-    });
   }
 
   onAddHabit(habit: Habit) {

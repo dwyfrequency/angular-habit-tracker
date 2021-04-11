@@ -10,8 +10,7 @@ import { UsersService } from '../services/users.service';
       </li>
     </ul>
 
-    <p>{{ users | async | json }}</p>
-    <p>{{ todos | async | json }}</p>`,
+    <p>{{ users | async | json }}</p>`,
   styles: [],
 })
 export class UserListComponent implements OnInit {

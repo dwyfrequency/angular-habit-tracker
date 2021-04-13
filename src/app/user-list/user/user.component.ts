@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, share, switchMap, tap } from 'rxjs/operators';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -23,7 +23,10 @@ export class UserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.route.params.pipe(map((params) => Number(params.id)));
+    this.userId = this.route.params.pipe(
+      map((params) => Number(params.id)),
+      share()
+    );
     this.userTodos = this.userId.pipe(
       switchMap((id) => this.userService.getUserTodos(id))
     );

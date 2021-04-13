@@ -30,7 +30,6 @@ import { Habit } from '../shared/habit';
     <h2>{{ test | async }}</h2>
     <hr />
     <hr />
-    <app-user-list></app-user-list>
   `,
   styles: [],
 })

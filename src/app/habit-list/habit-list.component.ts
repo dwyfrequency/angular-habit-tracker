@@ -42,7 +42,7 @@ export class HabitListComponent implements OnInit {
     switchMap(() => interval(100)),
     delay(1000),
     take(20),
-    map((x) => `number: ${x ** 2}`)
+    map((x) => `number: ${x ** 2}`.toUpperCase())
   );
 
   constructor(private habitService: HabitService) {}

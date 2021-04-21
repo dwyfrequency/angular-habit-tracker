@@ -24,33 +24,30 @@ import { of } from 'rxjs';
         [value]="browserName"
       ></option>
     </datalist>
-    <input type="text" name="test" id="test" #merp />
-    <!-- <div *ngIf="input?.nativeElement">{{ input!.nativeElement.value }}</div> -->
+    <button (click)="setBrowser(search.value)">click</button>
+    <div *ngIf="selectedBrowser">Select Browser: {{ selectedBrowser }}</div>
   `,
   styles: [],
 })
-export class SearchComponent implements OnInit, OnChanges, AfterViewInit {
+export class SearchComponent implements OnChanges, AfterViewInit {
   browserNames$ = of(['Edge', 'Firefox', 'Chrome', 'Opera', 'Safari']);
+  selectedBrowser?: string;
   @ViewChild('search') selectBrowser?: ElementRef;
-  @ViewChild('merp') input?: ElementRef;
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log({
-      ngOnInit: this.selectBrowser,
-      merp: this.input,
-    });
-  }
-
   ngAfterViewInit(): void {
+    // will appear here
     console.log({
       ngOnInit: this.selectBrowser,
-      merp: this.input,
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log({ searchRef: this.selectBrowser });
+  }
+
+  setBrowser(browserName: string) {
+    this.selectedBrowser = browserName;
   }
 }
